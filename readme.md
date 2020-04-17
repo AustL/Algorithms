@@ -26,6 +26,4 @@ Navigate to the A Star directory and run the command
 
 5. Press enter when ready to begin the algorithm
 
-<img src="/A%20Star/images/start.png" alt="Start" width="220" height="160"/>
-
-<img src="/A%20Star/images/end.png" alt="End" width="220" height="160"/>
+<img src="/A%20Star/images/start.png" alt="Start" width="400" height="300"/> <img src="/A%20Star/images/end.png" alt="End" width="400" height="300"/>
