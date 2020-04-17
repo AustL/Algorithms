@@ -5,6 +5,8 @@ import time
 import pygame
 import sys
 
+from collections import deque
+
 
 class Node:
     def __init__(self, x, y):
@@ -158,6 +160,7 @@ class Grid:
         node = self.minOpenNode()
 
         while node != self.endNode:
+            time.sleep(0.01)
             node.calculateNeighbours(node)
             node = self.minOpenNode()
             self.closed.add(node)
@@ -189,14 +192,14 @@ class Grid:
 
 
 NODE_WIDTH = 24
-BORDER = 0
+BORDER = 2
 GRID_WIDTH = 40
 GRID_HEIGHT = 30
 FONT_SIZE = 10
 
 mouseDown = False
 allowInput = True
-lastSelection = None
+selectionHistory = deque()
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
@@ -224,10 +227,12 @@ while run:
                 selection = grid.getNodeAtMouse(*pygame.mouse.get_pos())
                 if selection:
                     if not grid.startNode:
-                        lastSelection = selection
+                        if selection not in selectionHistory:
+                            selectionHistory.append(selection)
                         grid.setStartNode(selection)
                     elif not grid.endNode:
-                        lastSelection = selection
+                        if selection not in selectionHistory:
+                            selectionHistory.append(selection)
                         grid.setEndNode(selection)
 
         if event.type == pygame.MOUSEBUTTONUP and allowInput:
@@ -239,7 +244,8 @@ while run:
                     path.start()
                     allowInput = False
             elif event.key == pygame.K_BACKSPACE:
-                if lastSelection:
+                if selectionHistory:
+                    lastSelection = selectionHistory.pop()
                     if lastSelection == grid.startNode:
                         grid.removeStartNode()
                     elif lastSelection == grid.endNode:
@@ -249,7 +255,8 @@ while run:
     if mouseDown and allowInput:
         selection = grid.getNodeAtMouse(*pygame.mouse.get_pos())
         if selection:
-            lastSelection = selection
+            if selection not in selectionHistory:
+                selectionHistory.append(selection)
             selection.obstacle = True
 
     grid.draw()
