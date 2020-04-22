@@ -78,7 +78,7 @@ def beginSearch():
         search = threading.Thread(target=numbers.search, args=(number,))
         search.start()
 
-    except TypeError:
+    except ValueError:
         print('Please provide a valid number!')
 
 
