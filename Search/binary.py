@@ -4,6 +4,7 @@ import sys
 import time
 import threading
 import random
+import pygame_widgets
 
 
 class Array:
@@ -71,6 +72,16 @@ class Array:
             x += 110
 
 
+def beginSearch():
+    try:
+        number = int(textbox.getText())
+        search = threading.Thread(target=numbers.search, args=(number,))
+        search.start()
+
+    except TypeError:
+        print('Please provide a valid number!')
+
+
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
 
@@ -79,15 +90,19 @@ pygame.display.set_caption('Binary Search')
 
 numbers = Array(*(random.randint(0, 100) for _ in range(40)))
 
-search = threading.Thread(target=numbers.search, args=(34,))
-search.start()
+textbox = pygame_widgets.TextBox(win, 450, 685, 200, 80, fontSize=46, onSubmit=beginSearch)
 
 run = True
 while run:
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
 
+    textbox.listen(events)
+
     numbers.draw()
+    textbox.draw()
+
     pygame.display.update()
