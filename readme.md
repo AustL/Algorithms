@@ -5,8 +5,9 @@ Visual demonstrations of common algorithms using Python
 ## Prerequisites
 * [Python3](https://www.python.org/downloads)
 * [Pygame](https://www.pygame.org/wiki/GettingStarted)
-
 `python -m pip install pygame`
+* [Pygame Widgets](https://github.com/AustL/PygameWidgets)
+`python -m pip install pygame_widgets`
 
 ## Usage
 
